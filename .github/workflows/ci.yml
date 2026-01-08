@@ -14,11 +14,20 @@ jobs:
 
     steps:
       # ----------------------------
-      # Checkout repo
+      # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # สำคัญ ให้ checkout ทั้ง repo
+
+      # ----------------------------
+      # Debug: ตรวจสอบไฟล์ใน runner
+      - name: Debug service folder
+        run: |
+          echo "Root folder: $PWD"
+          ls -la
+          echo "Service folder contents:"
+          ls -la service
 
       # ----------------------------
       # Setup Go
@@ -28,16 +37,7 @@ jobs:
           go-version: "1.24.x"
 
       # ----------------------------
-      # Debug: ตรวจสอบไฟล์
-      - name: Debug folder
-        run: |
-          echo "Root folder: $PWD"
-          ls -la
-          echo "Service folder contents:"
-          ls -la service
-
-      # ----------------------------
-      # Download Go dependencies
+      # Download dependencies
       - name: Go mod download
         run: |
           cd service
@@ -67,7 +67,7 @@ jobs:
 
     steps:
       # ----------------------------
-      # Checkout repo
+      # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
