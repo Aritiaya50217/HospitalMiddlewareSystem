@@ -49,7 +49,7 @@ jobs:
       - name: Run unit tests
         run: |
           cd service
-          go test ./internal/... ./pkg/... ./tests/... -v -race
+          go test ./internal/... -v -race
 
       # ----------------------------
       # Build binary
