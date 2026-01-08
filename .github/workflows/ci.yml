@@ -25,14 +25,20 @@ jobs:
         run: |
           pwd
           ls -la
+          cd service
+          pwd
+          ls -la
 
       - name: Go mod download
+        working-directory: ./service
         run: go mod download
 
       - name: Run tests
+        working-directory: ./service
         run: go test ./internal/... ./pkg/... ./tests/... -v -race
 
       - name: Build binary
+        working-directory: ./service
         run: go build -v -o service ./cmd
 
   docker:
@@ -51,6 +57,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
+        working-directory: ./service
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest .
           docker tag ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest \
