@@ -13,32 +13,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # ----------------------------
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # สำคัญ ให้ checkout ทั้ง repo
 
+      # ----------------------------
+      # Debug: ตรวจสอบไฟล์ใน runner
       - name: Debug service folder
         run: |
           echo "Root folder: $PWD"
           ls -la
+          echo "Service folder contents:"
           ls -la service
 
+      # ----------------------------
+      # Setup Go
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: "1.24.x"
 
+      # ----------------------------
+      # Download dependencies
       - name: Go mod download
         run: |
           cd service
+          echo "Current folder: $PWD"
+          ls -la
           go mod tidy
           go mod download
 
-      - name: Run tests
+      # ----------------------------
+      # Run unit tests
+      - name: Run unit tests
         run: |
           cd service
           go test ./internal/... ./pkg/... ./tests/... -v -race
 
+      # ----------------------------
+      # Build binary
       - name: Build binary
         run: |
           cd service
@@ -50,21 +66,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # ----------------------------
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Docker login CLI
-        run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      # ----------------------------
+      # Docker login
+      - name: Docker login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # ----------------------------
+      # Build Docker image
       - name: Build Docker image
         run: |
           cd service
+          echo "Docker build context: $PWD"
           docker build -t ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest .
           docker tag ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest \
                      ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:${{ github.sha }}
 
+      # ----------------------------
+      # Push Docker image
       - name: Push Docker image
         run: |
           cd service
