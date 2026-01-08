@@ -9,12 +9,12 @@ on:
 
 jobs:
   build-test:
-    name: Build & Test service
+    name: Build & Test Service
     runs-on: ubuntu-latest
 
     steps:
       # ----------------------------
-      # Checkout source
+      # Checkout code
       - name: Checkout source
         uses: actions/checkout@v4
 
@@ -27,27 +27,22 @@ jobs:
           cache: true
 
       # ----------------------------
-      # Debug (optional แต่ดีมาก)
-      - name: Debug working directory
-        run: |
-          pwd
-          ls -la
-          ls -la cmd
-
-      # ----------------------------
       # Download dependencies
       - name: Go mod download
+        working-directory: service
         run: go mod download
 
       # ----------------------------
-      # Run unit tests (Hexagonal-friendly)
-      - name: Run tests
+      # Run unit tests
+      - name: Run unit tests
+        working-directory: service
         run: |
           go test ./internal/... ./pkg/... ./tests/... -v -race
 
       # ----------------------------
-      # Build binary (ถูกต้องสำหรับ cmd/service)
+      # Build binary
       - name: Build binary
+        working-directory: service
         run: |
           go build -v -o service ./cmd
 
@@ -74,13 +69,13 @@ jobs:
       # Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/service:latest .
-          docker tag ${{ secrets.DOCKER_USERNAME }}/service:latest \
-                     ${{ secrets.DOCKER_USERNAME }}/service:${{ github.sha }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest ./service
+          docker tag ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest \
+                     ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:${{ github.sha }}
 
       # ----------------------------
       # Push Docker image
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/service:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/service:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:${{ github.sha }}
