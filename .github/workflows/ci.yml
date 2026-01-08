@@ -9,22 +9,31 @@ on:
 
 jobs:
   build-test:
-    name: Build & Test Service
+    name: Build & Test hospital_middleware_system
     runs-on: ubuntu-latest
 
     steps:
       # ----------------------------
-      # Checkout code
+      # Checkout source
       - name: Checkout source
         uses: actions/checkout@v4
 
       # ----------------------------
-      # Setup Go
+      # Setup Go 1.24
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version: "1.24.x"
-          cache: true
+
+      # ----------------------------
+      # Debug: check files
+      - name: Debug working directory
+        run: |
+          pwd
+          ls -la
+          cd service
+          pwd
+          ls -la
 
       # ----------------------------
       # Download dependencies
@@ -33,18 +42,16 @@ jobs:
         run: go mod download
 
       # ----------------------------
-      # Run unit tests
-      - name: Run unit tests
+      # Run tests
+      - name: Run tests
         working-directory: service
-        run: |
-          go test ./internal/... ./pkg/... ./tests/... -v -race
+        run: go test ./internal/... ./pkg/... ./tests/... -v -race
 
       # ----------------------------
       # Build binary
       - name: Build binary
         working-directory: service
-        run: |
-          go build -v -o service ./cmd
+        run: go build -v -o service ./cmd
 
   docker:
     name: Docker Build & Push
@@ -68,8 +75,9 @@ jobs:
       # ----------------------------
       # Build Docker image
       - name: Build Docker image
+        working-directory: service
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest ./service
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest .
           docker tag ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest \
                      ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:${{ github.sha }}
 
