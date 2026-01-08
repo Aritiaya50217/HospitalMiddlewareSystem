@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-test-docker:
-    name: Build, Test & Docker Push
+  build-test:
+    name: Build & Test hospital_middleware_system
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       # ----------------------------
-      # Debug folder
+      # Debug: ตรวจสอบไฟล์
       - name: Debug service folder
         run: |
           echo "Root folder: $PWD"
@@ -58,11 +58,29 @@ jobs:
           cd service
           go build -v -o service ./cmd
 
+  docker:
+    name: Docker Build & Push
+    needs: build-test
+    runs-on: ubuntu-latest
+
+    steps:
       # ----------------------------
-      # Docker login (CLI, ใช้ secrets)
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ----------------------------
+      # Debug Docker secrets
+      - name: Debug Docker username
+        run: echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
+
+      # ----------------------------
+      # Docker login CLI (สำคัญ: ใช้ Access Token)
       - name: Docker login CLI
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       # ----------------------------
       # Build Docker image
