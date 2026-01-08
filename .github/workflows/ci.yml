@@ -32,7 +32,7 @@ jobs:
         run: |
           pwd
           ls -la
-          ls -la cmd/service
+          ls -la cmd
 
       # ----------------------------
       # Download dependencies
@@ -49,7 +49,7 @@ jobs:
       # Build binary (ถูกต้องสำหรับ cmd/service)
       - name: Build binary
         run: |
-          go build -v -o service ./cmd/service
+          go build -v -o service ./cmd
 
   docker:
     name: Docker Build & Push
