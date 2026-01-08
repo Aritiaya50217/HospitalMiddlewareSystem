@@ -98,3 +98,4 @@ jobs:
           cd service
           docker push ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/hospital_middleware_system:${{ github.sha }}
+ 
