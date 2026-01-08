@@ -35,16 +35,19 @@ jobs:
       # ----------------------------
       # Download dependencies
       - name: Go mod download
+        working-directory: service
         run: go mod download
 
       # ----------------------------
       # Run unit tests
       - name: Run tests
+        working-directory: service
         run: go test ./internal/... ./pkg/... ./tests/... -v -race
 
       # ----------------------------
       # Build binary
       - name: Build binary
+        working-directory: service
         run: go build -v -o service ./cmd
 
   docker:
