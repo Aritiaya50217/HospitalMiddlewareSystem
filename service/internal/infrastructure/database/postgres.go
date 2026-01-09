@@ -40,7 +40,7 @@ func NewPostgresDB() *gorm.DB {
 	}
 
 	// AutoMigrate entities
-	if err := db.AutoMigrate(&entity.User{}, &entity.Auth{}, &entity.Role{}, &entity.Hospital{}); err != nil {
+	if err := db.AutoMigrate(&entity.User{}, &entity.Auth{}, &entity.Role{}, &entity.Hospital{}, &entity.Gender{}, &entity.Patient{}, &entity.StaffPatient{}); err != nil {
 		log.Fatalf("failed to auto-migrate: %v", err)
 	}
 

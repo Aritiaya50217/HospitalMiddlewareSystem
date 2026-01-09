@@ -17,11 +17,6 @@ type Patient struct {
 	PhoneNumber  string    `gorm:"column:phone_number"`
 	Email        string    `gorm:"column:email"`
 	GenderID     int       `gorm:"column:gender_id"`
-	StaffID      int       `gorm:"column:staff_id"`
 	CreatedAt    time.Time `gorm:"column:created_at"`
 	UpdatedAt    time.Time `gorm:"column:updated_at"`
-
-	// Associations
-	Gender Gender `gorm:"foreignKey:GenderID"`
-	Staff  User   `gorm:"foreignKey:StaffID"`
 }
