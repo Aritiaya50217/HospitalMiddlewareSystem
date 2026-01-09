@@ -1,4 +1,4 @@
-package usecase
+package login
 
 import (
 	"errors"
@@ -29,6 +29,13 @@ func TestLoginUsecase(t *testing.T) {
 				return user, nil
 			}
 			return nil, errors.New("user not found")
+		},
+		CreateFn: func(user *entity.User) error {
+			return nil
+		},
+		
+		FindByIDFn: func(id int64) (*entity.User, error) {
+			return nil, nil
 		},
 	}
 

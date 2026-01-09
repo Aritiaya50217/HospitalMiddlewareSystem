@@ -14,6 +14,22 @@ func NewUserRepository(db *gorm.DB) repository.UserRepository {
 	return &userRepository{db: db}
 }
 
+func (r *userRepository) FindByID(id int64) (*entity.User, error) {
+	var userModel UserModel
+	if err := r.db.Preload("Hospital").Preload("Role").First(&userModel, id).Error; err != nil {
+		return nil, err
+	}
+
+	user := &entity.User{
+		ID:         userModel.ID,
+		Username:   userModel.Username,
+		Password:   userModel.Password,
+		HospitalID: userModel.HospitalID,
+		RoleID:     userModel.RoleID,
+	}
+	return user, nil
+}
+
 func (r *userRepository) FindByUserNameAndHospital(username, hospitalName string) (*entity.User, error) {
 	var userModel UserModel
 	if err := r.db.Preload("Hospital").
@@ -31,17 +47,20 @@ func (r *userRepository) FindByUserNameAndHospital(username, hospitalName string
 		Password:   userModel.Password,
 		HospitalID: userModel.HospitalID,
 		RoleID:     userModel.RoleID,
-		Hospital: &entity.Hospital{
-			ID:   userModel.Hospital.ID,
-			Name: userModel.Hospital.Name,
-		},
-		Role: &entity.Role{
-			ID:   userModel.Role.ID,
-			Name: userModel.Role.Name,
-		},
 		CreatedAt: userModel.CreatedAt,
 		UpdatedAt: userModel.UpdatedAt,
 	}
 
 	return user, nil
+}
+
+func (r *userRepository) Create(user *entity.User) error {
+	model := &UserModel{
+		Username:   user.Username,
+		Password:   user.Password,
+		HospitalID: user.HospitalID,
+		RoleID:     user.RoleID,
+	}
+
+	return r.db.Create(model).Error
 }

@@ -2,6 +2,11 @@ package entity
 
 import "time"
 
+const (
+	RoleAdmin = "admin"
+	RoleStaff = "staff"
+)
+
 type Role struct {
 	ID        int64     `gorm:"primaryKey;column:id"`
 	Name      string    `gorm:"column:name"` // admin, staff

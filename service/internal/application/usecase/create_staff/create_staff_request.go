@@ -1,6 +1,6 @@
-package login
+package create_staff
 
-type LoginRequest struct {
+type CreateStaffRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Hospital string `json:"hospital"`
