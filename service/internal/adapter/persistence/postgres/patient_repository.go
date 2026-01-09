@@ -14,15 +14,15 @@ func NewPatientRepository(db *gorm.DB) repository.PatientRepository {
 	return &patientRepository{db: db}
 }
 
-func (r *patientRepository) FindByIDAndHospital(patientID int64, hospitalID int64) (*entity.Patient, error) {
+func (r *patientRepository) Search(id string, hospitalID int64, offset, limit int) ([]*entity.Patient, error) {
+	var patients []*entity.Patient
+
+	db := r.db.Where("hospital_id = ?", hospitalID).Where(`id::text = ? OR national_id = ? OR passport_id = ?`, id, id, id).
+		Offset(offset).Limit(limit)
+
+	if err := db.Find(&patients).Error; err != nil {
+		return nil, err
+	}
 	
-	return nil, nil
-}
-
-func (r *patientRepository) FindByNationalIDAndHospital(nationalID string, hospitalID int64) (*entity.Patient, error) {
-	return nil, nil
-}
-
-func (r *patientRepository) FindByPassportIDAndHospital(passportID string, hospitalID int64) (*entity.Patient, error) {
-	return nil, nil
+	return patients, nil
 }

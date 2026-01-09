@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/create_staff"
+	create_staff "github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/staff"
 	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/domain/entity"
 	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/tests/mocks"
 	"github.com/stretchr/testify/assert"

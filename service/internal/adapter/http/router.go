@@ -8,9 +8,10 @@ import (
 )
 
 type Router struct {
-	AuthHandler *handler.AuthHandler
-	UserHandler *handler.UserHandler
-	JWTService  *security.JWTService
+	AuthHandler    *handler.AuthHandler
+	UserHandler    *handler.UserHandler
+	JWTService     *security.JWTService
+	PatientHandler *handler.PatientHandler
 }
 
 func NewRouter(router Router) *gin.Engine {
@@ -22,6 +23,12 @@ func NewRouter(router Router) *gin.Engine {
 	staff.Use(middleware.AuthMiddleware(router.JWTService))
 	{
 		staff.POST("/create", router.UserHandler.CreateStaff)
+	}
+
+	patient := r.Group("/patient")
+	patient.Use(middleware.AuthMiddleware(router.JWTService))
+	{
+		patient.GET("/search/:id", router.PatientHandler.Search)
 	}
 
 	return r

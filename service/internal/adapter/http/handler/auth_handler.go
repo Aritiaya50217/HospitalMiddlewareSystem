@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	usecase "github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/login"
+	usecase "github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/auth"
 	"github.com/gin-gonic/gin"
 )
 

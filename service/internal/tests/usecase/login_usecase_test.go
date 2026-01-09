@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/login"
+	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/auth"
 	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/domain/entity"
 	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/tests/mocks"
 	"github.com/stretchr/testify/assert"

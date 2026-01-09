@@ -3,20 +3,20 @@ package handler
 import (
 	"net/http"
 
-	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/create_staff"
+	staff "github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/staff"
 	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {
-	createStaff *create_staff.UsecaseCreate
+	createStaff *staff.UsecaseCreate
 }
 
-func NewUserHandler(createStaff *create_staff.UsecaseCreate) *UserHandler {
+func NewUserHandler(createStaff *staff.UsecaseCreate) *UserHandler {
 	return &UserHandler{createStaff: createStaff}
 }
 
 func (h *UserHandler) CreateStaff(c *gin.Context) {
-	var req create_staff.CreateStaffRequest
+	var req staff.CreateStaffRequest
 
 	// Bind JSON safely
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -41,7 +41,7 @@ func (h *UserHandler) CreateStaff(c *gin.Context) {
 	// Execute usecase
 	if err := h.createStaff.Excute(userID, &req); err != nil {
 		switch err {
-		case create_staff.ErrForbidden:
+		case staff.ErrForbidden:
 			c.JSON(http.StatusForbidden, gin.H{"error": "forbidden"})
 		default:
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
