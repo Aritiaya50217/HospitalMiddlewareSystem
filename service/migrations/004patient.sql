@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS patients (
     email VARCHAR(100),
 
     gender_id INTEGER NOT NULL,
+    hospital_id INTEGER NOT NULL,
 
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
@@ -28,10 +29,10 @@ INSERT INTO patients (
     first_name_en,middle_name_en, last_name_en,
     data_of_birth, patient_hn,
     national_id,passport_id, phone_number,
-    email, gender_id,
+    email, gender_id,hospital_id,
     created_at, updated_at
 )
 VALUES
-(1, 'สมชาย','-', 'ใจดี', 'Somchai','-', 'Jaidee', '1990-05-12', 'HN0001', '1103701234567','123456789', '0812345678', 'somchai@example.com', 1,now(),now()),
-(2, 'สมหญิง','-', 'รักสุข', 'Somying','-', 'Raksuk', '1995-09-20', 'HN0002', '1103707654321','567875890', '0898765432', 'somying@example.com', 2,now(),now())
+(1, 'สมชาย','-', 'ใจดี', 'Somchai','-', 'Jaidee', '1990-05-12', 'HN0001', '1103701234567','123456789', '0812345678', 'somchai@example.com', 1,1,now(),now()),
+(2, 'สมหญิง','-', 'รักสุข', 'Somying','-', 'Raksuk', '1995-09-20', 'HN0002', '1103707654321','567875890', '0898765432', 'somying@example.com', 2,1,now(),now())
 ON CONFLICT DO NOTHING;

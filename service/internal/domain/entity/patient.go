@@ -17,6 +17,7 @@ type Patient struct {
 	PhoneNumber  string    `gorm:"column:phone_number"`
 	Email        string    `gorm:"column:email"`
 	GenderID     int       `gorm:"column:gender_id"`
+	HospitalID   int       `gorm:"column:hospital_id"`
 	CreatedAt    time.Time `gorm:"column:created_at"`
 	UpdatedAt    time.Time `gorm:"column:updated_at"`
 }

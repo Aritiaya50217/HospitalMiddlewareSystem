@@ -18,6 +18,8 @@ type PatientModel struct {
 	Email        string
 	GenderID     int64
 	Gender       GenderModel `gorm:"foreignKey:GenderID"`
+	HospitalID   int64
+	Hospital     HospitalModel `gorm:"foreignKey:HospitalID"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }
