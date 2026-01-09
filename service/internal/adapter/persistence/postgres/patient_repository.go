@@ -14,7 +14,7 @@ func NewPatientRepository(db *gorm.DB) repository.PatientRepository {
 	return &patientRepository{db: db}
 }
 
-func (r *patientRepository) Search(id string, hospitalID int64, offset, limit int) ([]*entity.Patient, error) {
+func (r *patientRepository) SearchByID(id string, hospitalID int64, offset, limit int) ([]*entity.Patient, error) {
 	var patients []*entity.Patient
 
 	db := r.db.Where("hospital_id = ?", hospitalID).Where(`id::text = ? OR national_id = ? OR passport_id = ?`, id, id, id).

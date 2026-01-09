@@ -31,7 +31,7 @@ func (h *PatientHandler) Search(c *gin.Context) {
 	offset, _ := strconv.Atoi(c.DefaultQuery("offset", "0"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "20"))
 
-	patients, err := h.patientUsecase.Search(id, hospitalID.(int64), offset, limit)
+	patients, err := h.patientUsecase.SearchByID(id, hospitalID.(int64), offset, limit)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
