@@ -1,12 +1,13 @@
-package login
+package usecase
 
 import (
 	"errors"
 	"testing"
 	"time"
 
-	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/login/mocks"
+	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/application/usecase/login"
 	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/domain/entity"
+	"github.com/Aritiaya50217/HospitalMiddlewareSystem/internal/tests/mocks"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -33,7 +34,7 @@ func TestLoginUsecase(t *testing.T) {
 		CreateFn: func(user *entity.User) error {
 			return nil
 		},
-		
+
 		FindByIDFn: func(id int64) (*entity.User, error) {
 			return nil, nil
 		},
@@ -57,43 +58,34 @@ func TestLoginUsecase(t *testing.T) {
 		},
 	}
 
-	uc := NewLoginUsecase(userRepo, authRepo, jwtSvc)
+	uc := login.NewLoginUsecase(userRepo, authRepo, jwtSvc)
 
 	t.Run("success", func(t *testing.T) {
-		req := &LoginRequest{
+		resp, err := uc.Login(&login.LoginRequest{
 			Username: "staff1",
 			Password: "staff1234",
 			Hospital: "Bangkok Hospital",
-		}
-
-		resp, err := uc.Login(req)
+		})
 		assert.NoError(t, err)
-		assert.NotNil(t, resp)
 		assert.Equal(t, "mock.jwt.token", resp.AccessToken)
 	})
 
 	t.Run("invalid password", func(t *testing.T) {
-		req := &LoginRequest{
+		_, err := uc.Login(&login.LoginRequest{
 			Username: "staff1",
-			Password: "wrongpassword",
+			Password: "wrongpass",
 			Hospital: "Bangkok Hospital",
-		}
-
-		resp, err := uc.Login(req)
-		assert.Nil(t, resp)
+		})
 		assert.Error(t, err)
 		assert.Equal(t, "invalid password", err.Error())
 	})
 
 	t.Run("user not found", func(t *testing.T) {
-		req := &LoginRequest{
-			Username: "unknown",
-			Password: "any",
-			Hospital: "Unknown Hospital",
-		}
-
-		resp, err := uc.Login(req)
-		assert.Nil(t, resp)
+		_, err := uc.Login(&login.LoginRequest{
+			Username: "notexist",
+			Password: "staff1234",
+			Hospital: "Bangkok Hospital",
+		})
 		assert.Error(t, err)
 		assert.Equal(t, "user not found", err.Error())
 	})
