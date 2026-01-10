@@ -28,7 +28,7 @@ func NewRouter(router Router) *gin.Engine {
 	patient := r.Group("/patient")
 	patient.Use(middleware.AuthMiddleware(router.JWTService))
 	{
-		patient.GET("/search/:id", router.PatientHandler.Search)
+		patient.GET("/search/:id", router.PatientHandler.SearchByID)
 	}
 
 	return r

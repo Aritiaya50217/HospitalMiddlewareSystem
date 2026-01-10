@@ -17,9 +17,13 @@ func NewPatientUsecase(patientRepo repository.PatientRepository) *PatientUsecase
 	return &PatientUsecase{patientRepo: patientRepo}
 }
 
-func (uc *PatientUsecase) SearchByID(id string, hospitalID int64, offset, limit int) ([]*entity.Patient, error) {
+func (uc *PatientUsecase) SearchPatients(id string, hospitalID int64, offset, limit int) ([]*entity.Patient, error) {
 	if limit <= 0 || limit > 100 {
 		limit = 20
 	}
-	return uc.patientRepo.SearchByID(id, hospitalID, offset, limit)
+	return uc.patientRepo.SearchPatients(id, hospitalID, offset, limit)
+}
+
+func (uc *PatientUsecase) SearchByID(id string, hospitalID int64) (*entity.Patient, error) {
+	return uc.patientRepo.SearchByID(id, hospitalID)
 }
