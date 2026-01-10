@@ -1,4 +1,4 @@
-package search_patient
+package patient
 
 type SearchPatientRequest struct {
 	PatientID  *int64  `json:"patient_id"`

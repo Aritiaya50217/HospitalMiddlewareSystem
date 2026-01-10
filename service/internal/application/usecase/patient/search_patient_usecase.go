@@ -1,4 +1,4 @@
-package search_patient
+package patient
 
 import (
 	"errors"
