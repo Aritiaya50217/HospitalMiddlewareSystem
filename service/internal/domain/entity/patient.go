@@ -10,7 +10,7 @@ type Patient struct {
 	FirstNameEN  string    `gorm:"column:first_name_en"`
 	MiddleNameEN string    `gorm:"column:middle_name_en"`
 	LastNameEN   string    `gorm:"column:last_name_en"`
-	DateOfBirth  time.Time `gorm:"column:data_of_birth"`
+	DateOfBirth  time.Time `gorm:"column:date_of_birth"`
 	PatientHN    string    `gorm:"column:patient_hn"`
 	NationalID   string    `gorm:"column:national_id"`
 	PassportID   string    `gorm:"column:passport_id"`

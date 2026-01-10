@@ -10,7 +10,7 @@ type PatientModel struct {
 	FirstNameEN  string
 	MiddleNameEN string
 	LastNameEN   string
-	DataOfBirth  time.Time
+	DateOfBirth  time.Time
 	PatientHN    string //  หมายเลขประจำตัวผู้ป่วย
 	NationalID   string
 	PassportID   string

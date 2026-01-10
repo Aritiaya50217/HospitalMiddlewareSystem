@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS patients (
     middle_name_en VARCHAR(100),
     last_name_en VARCHAR(100),
 
-    data_of_birth TIMESTAMP,
+    date_of_birth TIMESTAMPTZ,
     patient_hn VARCHAR(50) NOT NULL UNIQUE,
     national_id VARCHAR(20),
     passport_id VARCHAR(20),
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS patients (
 INSERT INTO patients (
     id, first_name_th,middle_name_th, last_name_th,
     first_name_en,middle_name_en, last_name_en,
-    data_of_birth, patient_hn,
+    date_of_birth, patient_hn,
     national_id,passport_id, phone_number,
     email, gender_id,hospital_id,
     created_at, updated_at
