@@ -18,59 +18,63 @@ func NewPatientHandler(patientUsecase *patient.PatientUsecase, genderUsecase *ge
 	return &PatientHandler{patientUsecase: patientUsecase, genderUsecase: genderUsecase}
 }
 
-// func (h *PatientHandler) Search(c *gin.Context) {
-// 	var req search_patient.SearchPatientRequest
+func (h *PatientHandler) Search(c *gin.Context) {
+	var req search_patient.SearchPatientRequest
 
-// 	// bind query string
-// 	if err := c.ShouldBindQuery(&req); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid query parameters"})
-// 		return
-// 	}
+	if err := c.ShouldBindQuery(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid query parameters"})
+		return
+	}
 
-// 	if req.NationalID == "" && req.PassportID == "" && req.FirstName == "" && req.MiddleName == "" && req.LastName == "" && req.DateOfBirth == "" && req.PhoneNumber == "" && req.Email == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "at least one search criteria is required"})
-// 		return
-// 	}
+	hospitalID, ok := c.Get("hospital_id")
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
 
-// 	hospitalID, ok := c.Get("hospital_id")
-// 	if !ok {
-// 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-// 		return
-// 	}
+	patients, err := h.patientUsecase.Search(
+		hospitalID.(int64),
+		req.NationalID,
+		req.PassportID,
+		req.FirstName,
+		req.MiddleName,
+		req.LastName,
+		req.DateOfBirth,
+		req.PhoneNumber,
+		req.Email,
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
-// 	patients, err := h.patientUsecase.Search(hospitalID.(int64), req.NationalID, req.PassportID, req.FirstName, req.MiddleName, req.LastName, req.DateOfBirth, req.PhoneNumber, req.Email)
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		return
-// 	}
+	var results []search_patient.PatientResponse
+	for _, patient := range patients {
+		gender, err := h.genderUsecase.FindByID(int64(patient.GenderID))
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
 
-// 	var results []search_patient.PatientResponse
-// 	for _, p := range patients {
-// 		gender, err := h.genderUsecase.FindByID(int64(p.GenderID))
-// 		if err != nil {
-// 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 			return
-// 		}
+		results = append(results, search_patient.PatientResponse{
+			FirstNameTH:  patient.FirstNameTH,
+			MiddleNameTH: patient.MiddleNameTH,
+			LastNameTH:   patient.LastNameTH,
+			FirstNameEN:  patient.FirstNameEN,
+			MiddleNameEN: patient.MiddleNameEN,
+			LastNameEN:   patient.LastNameEN,
+			DateOfBirth:  patient.DateOfBirth.UTC(),
+			NationalID:   patient.NationalID,
+			PatientHN:    patient.PatientHN,
+			PassportID:   patient.PassportID,
+			PhoneNumber:  patient.PhoneNumber,
+			Email:        patient.Email,
+			Gender:       gender.Abbreviation,
+		})
+	}
 
-// 		results = append(results, search_patient.PatientResponse{
-// 			FirstNameTH:  p.FirstNameTH,
-// 			MiddleNameTH: p.MiddleNameTH,
-// 			LastNameTH:   p.LastNameTH,
-// 			FirstNameEN:  p.FirstNameEN,
-// 			MiddleNameEN: p.MiddleNameEN,
-// 			LastNameEN:   p.LastNameEN,
-// 			DateOfBirth:  p.DateOfBirth,
-// 			NationalID:   p.NationalID,
-// 			PatientHN:    p.PatientHN,
-// 			PassportID:   p.PassportID,
-// 			PhoneNumber:  p.PhoneNumber,
-// 			Email:        p.Email,
-// 			Gender:       gender.Abbreviation,
-// 		})
-// 	}
-
-// 	c.JSON(http.StatusOK, gin.H{"patients": results})
-// }
+	c.JSON(http.StatusOK, gin.H{"patients": results})
+}
 
 func (h *PatientHandler) SearchByID(c *gin.Context) {
 	id := c.Param("id")

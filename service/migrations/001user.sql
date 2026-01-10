@@ -1,3 +1,5 @@
+ALTER DATABASE users SET timezone TO 'UTC';
+
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,

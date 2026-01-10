@@ -1,3 +1,6 @@
+ALTER DATABASE hospitals SET timezone TO 'UTC';
+
+
 CREATE TABLE IF NOT EXISTS hospitals (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,

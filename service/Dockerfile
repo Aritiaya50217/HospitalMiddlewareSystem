@@ -3,6 +3,8 @@ FROM golang:1.24-alpine AS builder
 
 WORKDIR /app
 
+ENV TZ=UTC
+
 RUN apk add --no-cache git
 
 # cache dependency

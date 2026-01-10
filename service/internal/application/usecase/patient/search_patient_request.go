@@ -1,9 +1,9 @@
 package patient
 
 type SearchPatientRequest struct {
-	PatientID   int64  `json:"patient_id"`
-	NationalID  string `json:"national_id"`
-	PassportID  string `json:"passport_id"`
+	PatientID   int64  `form:"patient_id"`
+	NationalID  string `form:"national_id"`
+	PassportID  string `form:"passport_id"`
 	FirstName   string `form:"first_name"`
 	MiddleName  string `form:"middle_name"`
 	LastName    string `form:"last_name"`

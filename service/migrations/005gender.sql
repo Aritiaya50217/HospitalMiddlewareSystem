@@ -1,3 +1,5 @@
+ALTER DATABASE genders SET timezone TO 'UTC';
+
 CREATE TABLE IF NOT EXISTS genders (
     id SERIAL PRIMARY KEY,
     name VARCHAR(10) NOT NULL UNIQUE, -- // Male , Female
