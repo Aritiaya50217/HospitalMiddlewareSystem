@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS patients (
     middle_name_en VARCHAR(100),
     last_name_en VARCHAR(100),
 
-    date_of_birth TIMESTAMP DEFAULT NOW(),
+    date_of_birth TIMESTAMPTZ DEFAULT NOW(),
     patient_hn VARCHAR(50) NOT NULL UNIQUE,
     national_id VARCHAR(20),
     passport_id VARCHAR(20),
@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS patients (
     gender_id INTEGER NOT NULL,
     hospital_id INTEGER NOT NULL,
 
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 INSERT INTO patients (

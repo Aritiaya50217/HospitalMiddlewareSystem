@@ -63,7 +63,7 @@ func (h *PatientHandler) Search(c *gin.Context) {
 			FirstNameEN:  patient.FirstNameEN,
 			MiddleNameEN: patient.MiddleNameEN,
 			LastNameEN:   patient.LastNameEN,
-			DateOfBirth:  patient.DateOfBirth.UTC(),
+			DateOfBirth:  patient.DateOfBirth,
 			NationalID:   patient.NationalID,
 			PatientHN:    patient.PatientHN,
 			PassportID:   patient.PassportID,

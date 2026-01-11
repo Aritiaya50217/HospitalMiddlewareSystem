@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     hospital_id INT NOT NULL,
     role_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
 
     CONSTRAINT fk_users_hospital
         FOREIGN KEY (hospital_id) REFERENCES hospitals(id),

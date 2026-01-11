@@ -10,6 +10,8 @@ services:
       - "${APP_PORT}:8080"
     env_file:
       - .env
+    environment:
+      TZ: Asia/Bangkok
     restart: always
 
   postgres:
@@ -22,8 +24,9 @@ services:
       DB_PORT: ${DB_PORT}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      TZ: "UTC"      
+      DB_NAME: ${DB_NAME}  
+      TZ: Asia/Bangkok
+      PGTZ: Asia/Bangkok
     ports:
       - "5433:5432"
     volumes:
