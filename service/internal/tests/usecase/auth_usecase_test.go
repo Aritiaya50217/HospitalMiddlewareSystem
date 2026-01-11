@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TestLoginUsecase_FullCoverage(t *testing.T) {
+func TestLoginUsecase(t *testing.T) {
 	hashed, _ := bcrypt.GenerateFromPassword([]byte("staff1234"), bcrypt.DefaultCost)
 
 	user := &entity.User{
