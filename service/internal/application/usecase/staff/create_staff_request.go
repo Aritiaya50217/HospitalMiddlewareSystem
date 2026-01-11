@@ -1,4 +1,4 @@
-package create_staff
+package staff
 
 type CreateStaffRequest struct {
 	Username string `json:"username"`

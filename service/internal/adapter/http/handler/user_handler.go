@@ -18,27 +18,23 @@ func NewUserHandler(createStaff *staff.UsecaseCreate) *UserHandler {
 func (h *UserHandler) CreateStaff(c *gin.Context) {
 	var req staff.CreateStaffRequest
 
-	// Bind JSON safely
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request: " + err.Error()})
 		return
 	}
 
-	// Get user_id from middleware context
 	userIDVal, exists := c.Get("user_id")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized: missing user_id"})
 		return
 	}
 
-	// Type assertion
 	userID, ok := userIDVal.(int64)
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal error: user_id type mismatch"})
 		return
 	}
 
-	// Execute usecase
 	if err := h.createStaff.Excute(userID, &req); err != nil {
 		switch err {
 		case staff.ErrForbidden:

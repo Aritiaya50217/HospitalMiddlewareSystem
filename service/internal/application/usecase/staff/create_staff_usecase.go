@@ -1,4 +1,4 @@
-package create_staff
+package staff
 
 import (
 	"errors"
@@ -25,11 +25,11 @@ func (uc *UsecaseCreate) Excute(id int64, req *CreateStaffRequest) error {
 	// check role
 	adminUser, err := uc.userRepo.FindByID(id)
 	if err != nil {
-		return errors.New("forbidden")
+		return err
 	}
 
 	if adminUser.RoleID != 1 {
-		return errors.New("forbidden")
+		return ErrForbidden
 	}
 
 	// check hospital
