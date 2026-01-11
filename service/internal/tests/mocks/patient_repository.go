@@ -44,22 +44,5 @@ func MockPatients() []entity.Patient {
 			GenderID:     1,
 			HospitalID:   1,
 		},
-		{
-			ID:           2,
-			FirstNameTH:  "สมหญิง",
-			MiddleNameTH: "-",
-			LastNameTH:   "รักสุข",
-			FirstNameEN:  "Somying",
-			MiddleNameEN: "-",
-			LastNameEN:   "Raksuk",
-			DateOfBirth:  time.Date(1990, 9, 20, 0, 0, 0, 0, loc),
-			PatientHN:    "HN0002",
-			NationalID:   "1103707654321",
-			PassportID:   "P123456",
-			PhoneNumber:  "0898765432",
-			Email:        "somying@example.com",
-			GenderID:     2,
-			HospitalID:   1,
-		},
 	}
 }

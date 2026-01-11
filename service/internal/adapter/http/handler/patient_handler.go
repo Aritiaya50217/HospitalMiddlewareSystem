@@ -26,6 +26,12 @@ func (h *PatientHandler) Search(c *gin.Context) {
 		return
 	}
 
+	if req.NationalID == "" && req.PassportID == "" && req.FirstName == "" && req.MiddleName == "" &&
+		req.LastName == "" && req.DateOfBirth == "" && req.PhoneNumber == "" && req.Email == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "at least one search criteria is required"})
+		return
+	}
+
 	hospitalID, ok := c.Get("hospital_id")
 	if !ok {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})

@@ -8,9 +8,7 @@ import (
 )
 
 var (
-	ErrPatientNotFound     = errors.New("patient not found")
-	ErrEmptySearchCriteria = errors.New("at least one search criteria is required")
-	ErrInvalidDateOfBirth  = errors.New("invalid date_of_birth format (YYYY-MM-DD)")
+	ErrPatientNotFound = errors.New("patient not found")
 )
 
 type PatientUsecase struct {
@@ -22,13 +20,6 @@ func NewPatientUsecase(patientRepo repository.PatientRepository) *PatientUsecase
 }
 
 func (uc *PatientUsecase) Search(hospitalID int64, nationalID, passportID, firstname, middlename, lastname, dateOfBirth, phoneNumber, email string) ([]entity.Patient, error) {
-
-	if nationalID == "" && passportID == "" && firstname == "" &&
-		middlename == "" && lastname == "" && dateOfBirth == "" &&
-		phoneNumber == "" && email == "" {
-		return nil, ErrEmptySearchCriteria
-	}
-
 	return uc.patientRepo.Search(hospitalID, nationalID, passportID, firstname, middlename, lastname, dateOfBirth, phoneNumber, email)
 }
 
