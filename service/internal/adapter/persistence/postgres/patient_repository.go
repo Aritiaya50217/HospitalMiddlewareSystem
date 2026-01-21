@@ -1,7 +1,6 @@
 package postgres
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
