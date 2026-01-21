@@ -37,7 +37,7 @@ func main() {
 
 	jwtService := security.NewJWTService(jwtSecret)
 	authUsecase := auth.NewLoginUsecase(userReppo, authRepo, jwtService)
-	userUsecase := staff.NewUsecaseCreate(userReppo, hospitalRepo)
+	userUsecase := staff.NewUsecaseStaff(userReppo, hospitalRepo)
 	patientUsecase := patient.NewPatientUsecase(patientRepo)
 	genderUsecase := gender.NewGenderUsecase(genderRepo)
 

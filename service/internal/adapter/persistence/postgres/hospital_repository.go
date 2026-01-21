@@ -22,3 +22,12 @@ func (r *hospitalRepository) FindByName(name string) (*entity.Hospital, error) {
 
 	return &entity.Hospital{ID: hospital.ID, Name: hospital.Name}, nil
 }
+
+func (r *hospitalRepository) FindByID(id int64) (*entity.Hospital, error) {
+	var hospital HospitalModel
+	if err := r.db.Where("id = ? ", id).First(&hospital).Error; err != nil {
+		return nil, err
+	}
+
+	return &entity.Hospital{ID: hospital.ID, Name: hospital.Name}, nil
+}

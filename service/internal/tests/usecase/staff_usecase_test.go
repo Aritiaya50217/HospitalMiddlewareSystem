@@ -40,7 +40,7 @@ func TestCreateStaffUsecase(t *testing.T) {
 		},
 	}
 
-	uc := staff.NewUsecaseCreate(userRepo, hospitalRepo)
+	uc := staff.NewUsecaseStaff(userRepo, hospitalRepo)
 
 	t.Run("success", func(t *testing.T) {
 		req := &staff.CreateStaffRequest{
@@ -99,3 +99,41 @@ func TestCreateStaffUsecase(t *testing.T) {
 		assert.Equal(t, "db error", err.Error())
 	})
 }
+
+// func TestDeleteStaffUsecase(t *testing.T) {
+// 	// Mock admin user
+// 	admin := &entity.User{ID: 1, RoleID: 1, HospitalID: 1}
+
+// 	// Mock hospital
+// 	hospital := &entity.Hospital{ID: 1, Name: "Bangkok Hospital"}
+
+// 	// User repository mock
+// 	userRepo := &mocks.UserRepositoryMock{
+// 		FindByIDFn: func(id int64) (*entity.User, error) {
+// 			if id == 1 {
+// 				return admin, nil
+// 			}
+// 			return nil, errors.New("not found")
+// 		},
+// 		DeleteFn: func(id int64) error {
+// 			return nil
+// 		},
+// 	}
+
+// 	// Hospital repository mock
+// 	hospitalRepo := &mocks.HospitalRepositoryMock{
+// 		FindByNameFn: func(name string) (*entity.Hospital, error) {
+// 			if name == "Bangkok Hospital" {
+// 				return hospital, nil
+// 			}
+// 			return nil, errors.New("not found")
+// 		},
+// 	}
+
+// 	uc := staff.NewUsecaseStaff(userRepo, hospitalRepo)
+
+// 	t.Run("success", func(t *testing.T) {
+// 		err := uc.DeleteStaffByID(1, 2)
+// 		assert.NoError(t, err)
+// 	})
+// }

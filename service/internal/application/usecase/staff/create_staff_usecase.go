@@ -12,16 +12,16 @@ var (
 	ErrForbidden = errors.New("forbidden")
 )
 
-type UsecaseCreate struct {
+type UsecaseStaff struct {
 	userRepo     repository.UserRepository
 	hospitalRepo repository.HospitalRepository
 }
 
-func NewUsecaseCreate(userRepo repository.UserRepository, hospitalRepo repository.HospitalRepository) *UsecaseCreate {
-	return &UsecaseCreate{userRepo: userRepo, hospitalRepo: hospitalRepo}
+func NewUsecaseStaff(userRepo repository.UserRepository, hospitalRepo repository.HospitalRepository) *UsecaseStaff {
+	return &UsecaseStaff{userRepo: userRepo, hospitalRepo: hospitalRepo}
 }
 
-func (uc *UsecaseCreate) Excute(id int64, req *CreateStaffRequest) error {
+func (uc *UsecaseStaff) Excute(id int64, req *CreateStaffRequest) error {
 	// check role
 	adminUser, err := uc.userRepo.FindByID(id)
 	if err != nil {
@@ -53,4 +53,41 @@ func (uc *UsecaseCreate) Excute(id int64, req *CreateStaffRequest) error {
 	}
 
 	return uc.userRepo.Create(staff)
+}
+
+func (uc *UsecaseStaff) DeleteStaffByID(adminID, staffID int64) error {
+	// check role
+	adminUser, err := uc.userRepo.FindByID(adminID)
+	if err != nil {
+		return err
+	}
+
+	if adminUser.RoleID != 1 {
+		return ErrForbidden
+	}
+
+	staff, err := uc.FindByID(staffID)
+	if err != nil {
+		return err
+	}
+
+	// check hospital
+	hospital, err := uc.hospitalRepo.FindByID(staff.HospitalID)
+	if err != nil {
+		return err
+	}
+
+	if hospital.ID != adminUser.HospitalID {
+		return errors.New("invalid hospital")
+	}
+
+	return uc.userRepo.Delete(staffID)
+}
+
+func (uc *UsecaseStaff) FindByID(id int64) (*entity.User, error) {
+	user, err := uc.userRepo.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }

@@ -23,6 +23,7 @@ func NewRouter(router Router) *gin.Engine {
 	staff.Use(middleware.AuthMiddleware(router.JWTService))
 	{
 		staff.POST("/create", router.UserHandler.CreateStaff)
+		staff.DELETE("/:id",router.UserHandler.DeleteStaff)
 	}
 
 	patient := r.Group("/patient")

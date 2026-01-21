@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -18,7 +19,7 @@ func NewPatientRepository(db *gorm.DB) repository.PatientRepository {
 	return &patientRepository{db: db}
 }
 
-func (r *patientRepository) Search(hospitalID int64,nationalID, passportID,firstname, middlename, lastname,dateOfBirth, phoneNumber, email string) ([]entity.Patient, error) {
+func (r *patientRepository) Search(hospitalID int64, nationalID, passportID, firstname, middlename, lastname, dateOfBirth, phoneNumber, email string) ([]entity.Patient, error) {
 
 	var models []entity.Patient
 	db := r.db.Model(&PatientModel{}).
@@ -75,7 +76,6 @@ func (r *patientRepository) Search(hospitalID int64,nationalID, passportID,first
 			orArgs = append(orArgs, start, end)
 		}
 	}
-
 	// --- Combine OR conditions if any ---
 	if len(orConditions) > 0 {
 		combined := strings.Join(orConditions, " OR ")

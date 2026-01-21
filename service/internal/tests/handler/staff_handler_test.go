@@ -46,7 +46,7 @@ func TestCreateStaffHandler(t *testing.T) {
 		},
 	}
 
-	uc := staff.NewUsecaseCreate(userRepo, hospitalRepo)
+	uc := staff.NewUsecaseStaff(userRepo, hospitalRepo)
 	h := handler.NewUserHandler(uc)
 
 	t.Run("Create Staff Handler", func(t *testing.T) {

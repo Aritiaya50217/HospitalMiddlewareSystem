@@ -6,4 +6,5 @@ type UserRepository interface {
 	FindByID(id int64) (*entity.User, error)
 	FindByUserNameAndHospital(username, hospital string) (*entity.User, error)
 	Create(user *entity.User) error
+	Delete(id int64) error
 }

@@ -47,8 +47,8 @@ func (r *userRepository) FindByUserNameAndHospital(username, hospitalName string
 		Password:   userModel.Password,
 		HospitalID: userModel.HospitalID,
 		RoleID:     userModel.RoleID,
-		CreatedAt: userModel.CreatedAt,
-		UpdatedAt: userModel.UpdatedAt,
+		CreatedAt:  userModel.CreatedAt,
+		UpdatedAt:  userModel.UpdatedAt,
 	}
 
 	return user, nil
@@ -63,4 +63,12 @@ func (r *userRepository) Create(user *entity.User) error {
 	}
 
 	return r.db.Create(model).Error
+}
+
+func (r *userRepository) Delete(id int64) error {
+	var user UserModel
+	if err := r.db.Model(&user).Preload("Hospital").Preload("Role").Delete("id = ?",id).Error; err != nil {
+		return err
+	}
+	return nil
 }
