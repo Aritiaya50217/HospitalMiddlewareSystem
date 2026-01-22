@@ -8,7 +8,3 @@ type HospitalModel struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
-
-func (HospitalModel) TableName() string {
-	return "hospitals"
-}

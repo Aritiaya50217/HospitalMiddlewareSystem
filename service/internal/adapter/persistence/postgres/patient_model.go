@@ -23,7 +23,3 @@ type PatientModel struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }
-
-func (PatientModel) TableName() string {
-	return "patients"
-}

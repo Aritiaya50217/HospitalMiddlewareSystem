@@ -13,7 +13,3 @@ type UserModel struct {
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 }
-
-func (UserModel) TableName() string {
-	return "users"
-}

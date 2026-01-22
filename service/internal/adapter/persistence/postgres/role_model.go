@@ -8,7 +8,3 @@ type RoleModel struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
-
-func (RoleModel) TableName() string {
-	return "roles"
-}
